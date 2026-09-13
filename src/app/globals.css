@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+:root {
+  --bg-page: #FAFAF8;
+  --bg-surface: #FFFFFF;
+  --bg-surface-2: #F3F3F0;
+  --border: #E5E4DF;
+  --text-primary: #101010;
+  --text-secondary: #5B5B58;
+  --text-muted: #9C9B96;
+  --foreground: #101010;
+  --accent: #B0F028;
+  --brand: #B0F028;
+  --accent-text: #5A7A00;
+  --positive: #4C7A00;
+  --positive-bg: #EAFBC7;
+  --negative: #C31432;
+  --negative-bg: #FCE4E6;
+}
+
+[data-theme="dark"], .dark {
+  --bg-page: #0E0E0F;
+  --bg-surface: #171718;
+  --bg-surface-2: #212123;
+  --border: #2D2D30;
+  --text-primary: #F4F4F5;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --foreground: #F4F4F5;
+  --accent: #B0F028;
+  --brand: #B0F028;
+  --accent-text: #B0F028;
+  --positive: #C6F857;
+  --positive-bg: #1D2B00;
+  --negative: #FF6B85;
+  --negative-bg: #2B0F14;
+}
+
+@theme {
+  --color-bg-page: var(--bg-page);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-surface-2: var(--bg-surface-2);
+  --color-border: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-brand: var(--brand);
+  --color-accent-text: var(--accent-text);
+  --color-positive: var(--positive);
+  --color-positive-bg: var(--positive-bg);
+  --color-negative: var(--negative);
+  --color-negative-bg: var(--negative-bg);
+
+  --color-chart-lime: #B0F028;
+  --color-chart-purple: #8257FF;
+  --color-chart-blue: #B0D7FF;
+  --color-chart-yellow: #FFDE49;
+  --color-chart-pink: #F4B6BA;
+  --color-chart-orange: #FF8A48;
+  --color-chart-lavender: #A78BFA;
+  --color-chart-teal: #2DD4BF;
+
+  --font-display: var(--font-space-grotesk), sans-serif;
+  --font-sans: var(--font-inter), sans-serif;
+
+  /* Logo animations registered as Tailwind utilities so group-hover: works */
+  --animate-jiggle: jiggle 0.55s ease;
+  --animate-dot-pop: dot-pop 0.55s ease;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes flash-positive {
+  0% {
+    background-color: var(--positive-bg);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes flash-negative {
+  0% {
+    background-color: var(--negative-bg);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.flash-up {
+  animation: flash-positive 800ms ease-out forwards;
+}
+
+.flash-down {
+  animation: flash-negative 800ms ease-out forwards;
+}
+
+/* Landing page hero entrance animations */
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.hero-fade-up {
+  animation: hero-fade-up 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-scale-in {
+  animation: hero-scale-in 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animation-delay-80 {
+  animation-delay: 80ms;
+}
+
+.animation-delay-160 {
+  animation-delay: 160ms;
+}
+
+.animation-delay-280 {
+  animation-delay: 280ms;
+}
+
+/* Landing page gradient mask — fades hero screenshot to page background */
+.hero-mask-gradient {
+  background: linear-gradient(to bottom, transparent 0%, #FAFAF8 100%);
+}
+
+[data-theme="dark"] .hero-mask-gradient,
+.dark .hero-mask-gradient {
+  background: linear-gradient(to bottom, transparent 0%, #0E0E0F 100%);
+}
+
+/* Radial accent glow for hero and CTA card */
+.hero-glow {
+  background: radial-gradient(ellipse at center, #B0F028 0%, transparent 70%);
+}
+
+.hero-glow-top {
+  background: radial-gradient(ellipse at center top, #B0F028 0%, transparent 70%);
+}
+
+/* Logo keyframes */
+@keyframes jiggle {
+  0%   { transform: translateY(0) rotate(0deg); }
+  30%  { transform: translateY(-7px) rotate(-8deg); }
+  60%  { transform: translateY(2px) rotate(5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes dot-pop {
+  0%   { transform: scale(1) translateY(0); }
+  30%  { transform: scale(1.5) translateY(-9px); }
+  60%  { transform: scale(0.75) translateY(2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+

@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.pnpm-store
 
 # testing
 /coverage
@@ -18,11 +19,14 @@
 # misc
 .DS_Store
 *.pem
+.vscode/
+.idea/
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # local env files
 .env*.local
@@ -34,3 +38,28 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# References & Assignment Mock Data
+/References/
+/references/
+*.xlsx
+*.xls
+*.pdf
+
+# AI Agents, Rules & Skills
+/.agents/
+/.cursor/
+/.github/
+.cursorrules
+AGENTS.md
+CLAUDE.md
+CODEX.md
+skills-lock.json
+architecture.md
+technicalbrief.md
+design.md
+design_inspiration.md
+
+# Test States & Showcase Mock Data
+/src/app/dashboard/test-states/
+/src/features/portfolio/data/mock-test-states.ts
