@@ -25,7 +25,6 @@ export default function HoldingsPage() {
   const [selectedSector, setSelectedSector] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Sector options built from live data
   const sectorOptions = useMemo(() => {
     if (!summary?.sectors) return [];
     return summary.sectors.map((s) => ({
@@ -67,7 +66,6 @@ export default function HoldingsPage() {
 
   return (
     <div className="space-y-5">
-      {/* Top Header Row: Title & Subtitle on left, Live Status on top right */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
           <h1 className="text-xl font-semibold tracking-tight text-text-primary">Holdings</h1>
@@ -96,9 +94,7 @@ export default function HoldingsPage() {
         </div>
       </div>
 
-      {/* Unified toolbar: search + sector filter + count + expand/collapse */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-        {/* Search */}
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-muted pointer-events-none" />
           <input
@@ -111,7 +107,6 @@ export default function HoldingsPage() {
           />
         </div>
 
-        {/* Sector filter */}
         <Select value={selectedSector} onValueChange={setSelectedSector}>
           <SelectTrigger className="w-full sm:w-48 text-xs h-8" id="sector-filter">
             <SelectValue placeholder="All Sectors" />
@@ -126,13 +121,11 @@ export default function HoldingsPage() {
           </SelectContent>
         </Select>
 
-        {/* Position count */}
         <span className="text-xs text-text-muted shrink-0 px-1">
           {totalPositions} position{totalPositions !== 1 ? "s" : ""}
         </span>
       </div>
 
-      {/* Portfolio Table */}
       <PortfolioTable
         sectors={filteredSectors}
         priceChanges={priceChanges}

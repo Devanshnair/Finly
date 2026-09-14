@@ -56,10 +56,9 @@ CLAUDE.md
 CODEX.md
 skills-lock.json
 architecture.md
-technicalbrief.md
 design.md
 design_inspiration.md
 
-# Test States & Showcase Mock Data
+# Test States (Local harness only)
 /src/app/dashboard/test-states/
-/src/features/portfolio/data/mock-test-states.ts
+

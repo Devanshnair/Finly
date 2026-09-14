@@ -17,9 +17,6 @@ export function usePortfolioQuery(options?: { endpoint?: string; queryKey?: read
     options?.queryKey ??
     (endpoint === "/api/portfolio" ? portfolioKeys.summary() : ["portfolio", endpoint]);
 
-  // The assignment-spec endpoint hits 26 external URLs concurrently. With per-scrape
-  // AbortController timeouts (~4s), the round should land in 4–6s. 15s gives honest
-  // headroom without the "more rope for the retry storm" problem of raising it to 35s.
   const requestTimeout = endpoint.includes("assignment-spec") ? 15_000 : 10_000;
 
   const query = useQuery({
@@ -30,16 +27,13 @@ export function usePortfolioQuery(options?: { endpoint?: string; queryKey?: read
       });
       return res.data.data;
     },
-    refetchInterval: 15 * 1000, // 15 seconds polling per assignment brief
+    refetchInterval: 15 * 1000,
     refetchIntervalInBackground: false,
     staleTime: 5 * 1000,
-    // Default retry:3 turns a single slow request into a retry storm — each
-    // retry re-scrapes all 26 tickers and compounds the timeout pressure.
     retry: 1,
     retryDelay: 2000,
   });
 
-  // Compare previous vs new CMP to trigger flash animations
   useEffect(() => {
     if (!query.data?.holdings) return;
 

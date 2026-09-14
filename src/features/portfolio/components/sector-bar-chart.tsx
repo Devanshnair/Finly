@@ -18,16 +18,15 @@ interface SectorBarChartProps {
   sectors: SectorSummary[];
 }
 
-// Vibrant palette per sector — cycles if more sectors than colors
 const SECTOR_COLORS = [
-  "#B0F028", // Lime (brand accent)
-  "#9B8AFB", // Purple
-  "#93C5FD", // Pastel Blue
-  "#FDE68A", // Yellow
-  "#F4B6BA", // Soft Pink
-  "#FB923C", // Orange
-  "#C4B5FD", // Lavender
-  "#6EE7B7", // Mint/Teal
+  "#B0F028",
+  "#9B8AFB",
+  "#93C5FD",
+  "#FDE68A",
+  "#F4B6BA",
+  "#FB923C",
+  "#C4B5FD",
+  "#6EE7B7",
 ];
 
 function formatCrore(value: number): string {

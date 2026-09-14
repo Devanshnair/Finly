@@ -6,11 +6,6 @@ import {
   PortfolioSummary,
 } from "../types/portfolio.types";
 
-/**
- * Pure calculation functions for portfolio financial metrics.
- * Deterministic, unit-testable, with division-by-zero guards.
- */
-
 export function calculateInvestment(purchasePrice: number, quantity: number): number {
   return Number((purchasePrice * quantity).toFixed(2));
 }
@@ -33,10 +28,6 @@ export function calculatePortfolioWeight(investment: number, totalInvestment: nu
   return Number(((investment / totalInvestment) * 100).toFixed(4));
 }
 
-/**
- * Merges a holding seed with its quote and calculates holding-level metrics.
- * Strictly avoids substituting missing live quotes with historical baseline mock prices.
- */
 export function calculateHolding(
   seed: HoldingSeed,
   quote: StockQuote | undefined,
@@ -44,7 +35,6 @@ export function calculateHolding(
 ): HoldingCalculated {
   const investment = calculateInvestment(seed.purchasePrice, seed.quantity);
 
-  // Resolve CMP strictly from live quote or cached quote (null if missing/error)
   const cmp = typeof quote?.cmp === "number" && !isNaN(quote.cmp) ? quote.cmp : null;
   const presentValue = cmp !== null ? calculatePresentValue(cmp, seed.quantity) : null;
   const gainLoss = presentValue !== null ? calculateGainLoss(presentValue, investment) : null;
@@ -54,7 +44,6 @@ export function calculateHolding(
 
   const pe = typeof quote?.pe === "number" ? quote.pe : null;
   const latestEarnings = typeof quote?.latestEarnings === "number" ? quote.latestEarnings : null;
-  // Status is the single source of truth; isStale is strictly derived from status
   const status: "live" | "stale" | "error" =
     quote?.status ?? (cmp === null ? "error" : quote?.isStale ? "stale" : "live");
   const isStale = status === "stale";
@@ -76,9 +65,6 @@ export function calculateHolding(
   };
 }
 
-/**
- * Groups calculated holdings by sector and computes sector-level aggregates.
- */
 export function calculateSectorSummary(
   sectorName: string,
   holdings: HoldingCalculated[],
@@ -108,11 +94,6 @@ export function calculateSectorSummary(
   };
 }
 
-/**
- * Calculates a portfolio-level weighted average P/E ratio.
- * Only includes holdings that have a valid P/E and non-zero investment weight.
- * Weight = holding's investment / total portfolio investment.
- */
 export function calculateAvgPe(
   holdings: HoldingCalculated[],
   totalInvestment: number
@@ -130,22 +111,16 @@ export function calculateAvgPe(
   return Number((weightedSum / totalWeight).toFixed(1));
 }
 
-/**
- * Master calculation function: takes raw holdings seed and live quotes map,
- * and produces the comprehensive PortfolioSummary.
- */
 export function calculatePortfolio(
   seedHoldings: HoldingSeed[],
   quotesMap: Record<string, StockQuote>
 ): PortfolioSummary {
-  // 1. Calculate preliminary total initial investment across all holdings
   const totalInvestment = Number(
     seedHoldings
       .reduce((sum, h) => sum + calculateInvestment(h.purchasePrice, h.quantity), 0)
       .toFixed(2)
   );
 
-  // 2. Calculate individual holding metrics
   const calculatedHoldings: HoldingCalculated[] = seedHoldings.map((seed) => {
     const quote = quotesMap[seed.ticker];
     if (process.env.NODE_ENV !== "production" && !quote) {
@@ -156,7 +131,6 @@ export function calculatePortfolio(
     return calculateHolding(seed, quote, totalInvestment);
   });
 
-  // 3. Group by sector
   const sectorGroups = new Map<string, HoldingCalculated[]>();
   for (const h of calculatedHoldings) {
     const list = sectorGroups.get(h.sector) ?? [];
@@ -168,7 +142,6 @@ export function calculatePortfolio(
     calculateSectorSummary(name, group, totalInvestment)
   );
 
-  // 4. Overall portfolio totals
   const hasAnyPresentValue = calculatedHoldings.some((h) => h.presentValue !== null);
   const totalPresentValue = hasAnyPresentValue
     ? Number(calculatedHoldings.reduce((sum, h) => sum + (h.presentValue ?? 0), 0).toFixed(2))
@@ -178,7 +151,6 @@ export function calculatePortfolio(
   const gainLossPercent =
     totalGainLoss !== null ? calculateGainLossPercent(totalGainLoss, totalInvestment) : null;
 
-  // 5. Rank top gainers & top losers (only among holdings with valid gain/loss %)
   const validMoverHoldings = calculatedHoldings.filter((h) => h.gainLossPercent !== null);
   const sorted = [...validMoverHoldings].sort(
     (a, b) => (b.gainLossPercent ?? 0) - (a.gainLossPercent ?? 0)
@@ -186,7 +158,6 @@ export function calculatePortfolio(
   const topGainers = sorted.slice(0, 5);
   const topLosers = sorted.slice(-5).reverse();
 
-  // Status partitions are mutually exclusive by definition
   const offlineCount = calculatedHoldings.filter(
     (h) => h.status === "error" || h.cmp === null
   ).length;

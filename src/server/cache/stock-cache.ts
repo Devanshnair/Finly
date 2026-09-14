@@ -6,11 +6,7 @@ interface CacheEntry {
   fundamentalsExpiresAt: number;
 }
 
-/**
- * In-memory server-side TTL cache for stock market data.
- * - CMP TTL: 15 seconds (frequently updating)
- * - P/E & Latest Earnings TTL: 4 hours (fundamentals are stable intraday)
- */
+// 15s for price, 4h for fundamentals
 class StockCache {
   private cache = new Map<string, CacheEntry>();
   private readonly PRICE_TTL_MS = 15 * 1000;
@@ -84,7 +80,6 @@ class StockCache {
   }
 }
 
-// Global singleton instance on server
 const globalStockCache = globalThis as unknown as { __finly_stock_cache__?: StockCache };
 export const stockCache = globalStockCache.__finly_stock_cache__ ?? new StockCache();
 if (process.env.NODE_ENV !== "production") {

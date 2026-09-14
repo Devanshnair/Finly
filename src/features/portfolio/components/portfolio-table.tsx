@@ -31,7 +31,6 @@ export function PortfolioTable({ sectors, priceChanges, searchQuery = "" }: Port
     setCollapsedSectors(newState);
   };
 
-  // Filter holdings by search within already-sector-filtered sectors
   const filteredSectors = useMemo(() => {
     return sectors
       .map((sec) => {

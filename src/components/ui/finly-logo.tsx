@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 interface FinlyLogoProps {
   className?: string;
   href?: string;
-  /** When true, renders as "f." only with no hover animation (for collapsed sidebar) */
   compact?: boolean;
 }
 
@@ -12,7 +11,6 @@ const WORD = "finly";
 
 export function FinlyLogo({ className, href = "/", compact = false }: FinlyLogoProps) {
   const content = compact ? (
-    // Collapsed sidebar: show "f." with NO hover animation
     <div
       className={cn(
         "flex items-baseline font-display text-2xl font-bold tracking-tight text-foreground select-none",
@@ -23,7 +21,6 @@ export function FinlyLogo({ className, href = "/", compact = false }: FinlyLogoP
       <span className="ml-[1px] inline-block text-brand">.</span>
     </div>
   ) : (
-    // Full logo: "finly." with staggered jiggle on hover
     <div
       className={cn(
         "group flex items-baseline font-display text-2xl font-bold tracking-tight text-foreground select-none",
@@ -66,5 +63,4 @@ export function FinlyLogo({ className, href = "/", compact = false }: FinlyLogoP
   return content;
 }
 
-// Export Logo alias to support standard naming
 export const Logo = FinlyLogo;

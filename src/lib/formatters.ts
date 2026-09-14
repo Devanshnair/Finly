@@ -1,7 +1,3 @@
-/**
- * Number and financial formatters for Finly
- */
-
 export function formatINR(
   value: number | null | undefined,
   options?: { showSign?: boolean; maximumFractionDigits?: number; fallback?: string }

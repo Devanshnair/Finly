@@ -20,7 +20,6 @@ export function KpiSummaryCards({ summary, compact = false }: KpiSummaryCardsPro
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {/* 1. Total Investment */}
       <div
         className={cn(
           cardPadding,
@@ -42,7 +41,6 @@ export function KpiSummaryCards({ summary, compact = false }: KpiSummaryCardsPro
         </div>
       </div>
 
-      {/* 2. Present Value */}
       <div
         className={cn(
           cardPadding,
@@ -62,7 +60,6 @@ export function KpiSummaryCards({ summary, compact = false }: KpiSummaryCardsPro
         </div>
       </div>
 
-      {/* 3. Total Gain / Loss */}
       <div
         className={cn(
           cardPadding,
@@ -112,7 +109,6 @@ export function KpiSummaryCards({ summary, compact = false }: KpiSummaryCardsPro
         </div>
       </div>
 
-      {/* 4. Avg P/E */}
       <div
         className={cn(
           cardPadding,

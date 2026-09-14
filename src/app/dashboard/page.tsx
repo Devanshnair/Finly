@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 import { HoldingCalculated } from "@/features/portfolio/types/portfolio.types";
 import { LiveStatus } from "@/features/portfolio/components/live-status";
 
-// ─── Top holdings mini-table ───────────────────────────────────────────────
 function TopHoldingsPreview({ holdings, total }: { holdings: HoldingCalculated[]; total: number }) {
   const top5 = useMemo(
     () => [...holdings].sort((a, b) => (b.presentValue ?? 0) - (a.presentValue ?? 0)).slice(0, 5),
@@ -95,7 +94,6 @@ function TopHoldingsPreview({ holdings, total }: { holdings: HoldingCalculated[]
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────
 export default function OverviewPage() {
   const { data: summary, isLoading, isError, isFetching, refetch } = usePortfolioQuery();
 
@@ -135,7 +133,6 @@ export default function OverviewPage() {
 
   return (
     <div className="space-y-6">
-      {/* Top Header Row: Title & Subtitle on left, Live Status on top right */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
           <h1 className="text-xl font-semibold tracking-tight text-text-primary">Overview</h1>
@@ -157,10 +154,8 @@ export default function OverviewPage() {
         </div>
       </div>
 
-      {/* KPI Cards */}
       <KpiSummaryCards summary={summary} />
 
-      {/* Charts Row 1: Sector donut + Movers */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         <div className="lg:col-span-2">
           <SectorAllocationChart sectors={summary.sectors} />
@@ -170,10 +165,8 @@ export default function OverviewPage() {
         </div>
       </div>
 
-      {/* Charts Row 2: Investment vs Present Value bar chart */}
       <SectorBarChart sectors={summary.sectors} />
 
-      {/* Top Holdings preview table */}
       <TopHoldingsPreview holdings={summary.holdings} total={summary.holdingsCount} />
     </div>
   );

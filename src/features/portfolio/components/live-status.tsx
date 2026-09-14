@@ -51,32 +51,26 @@ export function LiveStatus({
     const livePct = live / total;
 
     if (offline === total) {
-      // Complete systemic failure — no data at all
       statusLabel = "Feed offline";
       dotColor = "bg-negative";
       textStyle = "text-negative font-medium";
     } else if (live === total) {
-      // All tickers fresh
       statusLabel = "Live";
       dotColor = "bg-accent animate-pulse";
       textStyle = "text-text-secondary";
     } else if (live === 0) {
-      // No live tickers but not all offline → all stale (cached past TTL)
       statusLabel = "Stale cache";
       dotColor = "bg-amber-500";
       textStyle = "text-amber-500 font-medium";
     } else if (livePct > 0.5) {
-      // Majority live — green with count for transparency
       statusLabel = `${live}/${total} live`;
       dotColor = "bg-accent animate-pulse";
       textStyle = "text-text-secondary";
     } else if (livePct < 0.2) {
-      // Most are down — red warning
       statusLabel = `${live}/${total} live`;
       dotColor = "bg-negative";
       textStyle = "text-negative font-medium";
     } else {
-      // 20–50% live — amber caution
       statusLabel = `${live}/${total} live`;
       dotColor = "bg-amber-500";
       textStyle = "text-amber-500 font-medium";

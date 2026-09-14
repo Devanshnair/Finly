@@ -5,14 +5,11 @@ const yahooFinance = new YahooFinance({
   suppressNotices: ["yahooSurvey"],
 });
 
-/**
- * Fetches batch quotes from Yahoo Finance JSON endpoints.
- */
 export async function fetchYahooFinanceQuotes(tickers: string[]): Promise<Map<string, StockQuote>> {
   const quotesMap = new Map<string, StockQuote>();
   if (tickers.length === 0) return quotesMap;
 
-  // Batch in chunks of 10 to keep URL length and payload modest
+  // chunk by 10 so url stays small
   const chunkSize = 10;
   const chunks: string[][] = [];
   for (let i = 0; i < tickers.length; i += chunkSize) {

@@ -1,8 +1,6 @@
 "use client";
 
 import Link from "next/link";
-// Kept for quick 1-line fallback if needed:
-// import Image from "next/image";
 import { ArrowRight, RefreshCw, Layers, TrendingUp, Shield } from "lucide-react";
 import { FinlyLogo } from "@/components/ui/finly-logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -38,7 +36,6 @@ const FEATURES = [
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-bg-page text-text-primary flex flex-col overflow-x-hidden">
-      {/* ── Navbar ─────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50 border-b border-border bg-bg-page/80 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <FinlyLogo />
@@ -55,24 +52,19 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* ── Hero ───────────────────────────────────────────────────── */}
       <section className="relative pt-12 sm:pt-16 pb-0 flex flex-col items-center text-center px-6 overflow-hidden">
-        {/* Subtle radial glow behind content */}
         <div className="hero-glow pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] opacity-[0.07] dark:opacity-[0.12]" />
 
-        {/* Headline — 2 lines with reduced font size */}
         <h1 className="hero-fade-up relative z-10 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-[-0.03em] leading-[1.1] text-text-primary max-w-2xl">
           Your portfolio,
           <br />
           <span className="text-accent">live.</span>
         </h1>
 
-        {/* Subheadline */}
         <p className="hero-fade-up animation-delay-80 relative z-10 mt-4 sm:mt-5 text-sm sm:text-base text-text-secondary max-w-xl leading-relaxed">
           Track your stock holdings with live prices, sector subtotals, and P/E ratios.
         </p>
 
-        {/* CTA */}
         <div className="hero-fade-up animation-delay-160 relative z-10 mt-6 sm:mt-7 flex items-center justify-center">
           <Link
             href="/dashboard"
@@ -83,28 +75,11 @@ export default function LandingPage() {
           </Link>
         </div>
 
-        {/* Dashboard Preview — exact dashboard layout (sidebar + header + overview) */}
         <div className="hero-scale-in animation-delay-280 relative z-10 mt-8 sm:mt-10 w-full max-w-5xl mx-auto">
-          {/* Live component preview (auto-themes via CSS variables & ThemeProvider) */}
           <HeroPreview />
-
-          {/* Fallback Static Screenshot (kept in public/Screenshot_14-9-2026_42520_localhost.jpeg):
-          <div className="relative rounded-xl overflow-hidden border border-border/40 bg-bg-surface shadow-2xl shadow-black/50">
-            <Image
-              src="/Screenshot_14-9-2026_42520_localhost.jpeg"
-              alt="Finly Dashboard"
-              width={1887}
-              height={965}
-              className="w-full h-auto block object-cover object-top"
-              priority
-            />
-            <div className="hero-mask-gradient absolute bottom-0 left-0 right-0 h-28 pointer-events-none" />
-          </div>
-          */}
         </div>
       </section>
 
-      {/* ── Feature cards ───────────────────────────────────────────── */}
       <section className="py-24 px-6">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-text-primary text-center tracking-tight mb-16">
@@ -132,11 +107,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Final CTA banner ────────────────────────────────────────── */}
       <section className="px-6 pb-24">
         <div className="max-w-5xl mx-auto">
           <div className="rounded-2xl border border-border bg-bg-surface relative overflow-hidden px-8 py-16 text-center">
-            {/* Subtle accent glow inside card */}
             <div className="hero-glow-top pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-96 h-40 opacity-[0.08] dark:opacity-[0.14]" />
             <h2 className="relative font-display text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4">
               See it live.
@@ -155,7 +128,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Footer ──────────────────────────────────────────────────── */}
       <footer className="mt-auto border-t border-border py-6">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted">
           <span>

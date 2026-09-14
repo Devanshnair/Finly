@@ -41,7 +41,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         onMobileClose={() => setMobileOpen(false)}
       />
 
-      {/* Main content — offset by sidebar width */}
       <div
         className={cn(
           "min-h-screen flex flex-col transition-all duration-250 ease-in-out",

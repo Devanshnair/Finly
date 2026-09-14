@@ -11,16 +11,15 @@ interface SectorAllocationChartProps {
   compact?: boolean;
 }
 
-// Strictly vibrant, distinct hues — no grey shades
 const SECTOR_PALETTE = [
-  { hex: "#B0F028", bgClass: "bg-[#B0F028]" }, // Lime
-  { hex: "#8257FF", bgClass: "bg-[#8257FF]" }, // Purple
-  { hex: "#B0D7FF", bgClass: "bg-[#B0D7FF]" }, // Pastel Blue
-  { hex: "#FFDE49", bgClass: "bg-[#FFDE49]" }, // Yellow
-  { hex: "#F4B6BA", bgClass: "bg-[#F4B6BA]" }, // Soft Pink
-  { hex: "#FF8A48", bgClass: "bg-[#FF8A48]" }, // Orange
-  { hex: "#A78BFA", bgClass: "bg-[#A78BFA]" }, // Lavender
-  { hex: "#2DD4BF", bgClass: "bg-[#2DD4BF]" }, // Mint / Teal
+  { hex: "#B0F028", bgClass: "bg-[#B0F028]" },
+  { hex: "#8257FF", bgClass: "bg-[#8257FF]" },
+  { hex: "#B0D7FF", bgClass: "bg-[#B0D7FF]" },
+  { hex: "#FFDE49", bgClass: "bg-[#FFDE49]" },
+  { hex: "#F4B6BA", bgClass: "bg-[#F4B6BA]" },
+  { hex: "#FF8A48", bgClass: "bg-[#FF8A48]" },
+  { hex: "#A78BFA", bgClass: "bg-[#A78BFA]" },
+  { hex: "#2DD4BF", bgClass: "bg-[#2DD4BF]" },
 ];
 
 export function SectorAllocationChart({ sectors, compact = false }: SectorAllocationChartProps) {

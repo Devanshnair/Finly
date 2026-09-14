@@ -48,7 +48,6 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     localStorage.setItem("finly-theme", next ? "dark" : "light");
   }
 
-  // Render a placeholder during SSR / before hydration to avoid layout shift
   if (!mounted) {
     return (
       <div className={cn("h-9 w-9 rounded-xl border border-border bg-bg-surface", className)} />
