@@ -2,18 +2,57 @@
 
 ## Executive Summary
 
-Finly is a real-time equity portfolio dashboard tracking multi-sector Indian equities with live price feeds, automatic 15-second polling, sector subtotals, and graceful degradation.
+Finly is a real-time equity portfolio dashboard tracking multi-sector Indian equities with live price feeds, automatic 15-second updates, sector subtotals, and graceful degradation.
 
-During design and development, our core objective was to build a **reliable, production-grade system** rather than an academic prototype. This required addressing the realities of unofficial financial data sourcing, high-frequency polling limits, HTML scraping fragility, and modern React 19 / Next.js 15 App Router concurrency.
+During design and development, our core objective was to build a **reliable, production-grade system** rather than an academic prototype. This required addressing the realities of unofficial financial data sourcing, high-frequency data refresh limits, HTML scraping fragility, modern React 19 / Next.js 15 App Router concurrency, and cloud deployment boundaries.
 
-To honor both real-world engineering standards and the assignment guidelines, we have built **two separate systems**:
+To honor both real-world engineering standards and the assignment guidelines, we have built and documented our systems across two dimensions:
 
-1. **Primary Production System (`/dashboard`):** Our primary recommended architecture using Yahoo Finance data and Google Finance as fallback.
-2. **Secondary Assignment-Spec Demo (`/dashboard/assignment-spec`):** Follows assignment brief strictly, scraping live P/E ratios and latest earnings directly from Google Finance and sourcing live CMP from Yahoo Finance.
+1. **Transport Architecture (Polling vs. Server-Sent Events):** A primary cloud deployment on `main` utilizing short-lived polling to accommodate serverless boundaries, alongside a dedicated `sse` branch demonstrating a push-based single-broadcaster architecture for persistent container runtimes.
+2. **Data Sourcing Pipeline:** A resilient Yahoo Finance primary consolidation (`/dashboard`), alongside a secondary proof-of-concept (`/dashboard/assignment-spec`) strictly honoring the assignment's dual Yahoo CMP + Google Finance scraper brief.
 
 ---
 
-## 1. Data Sourcing: Official API Absence & The Scraping Dilemma
+## 1. Real-Time Transport: Polling (Pull) vs. Server-Sent Events (Push)
+
+### The Architectural Discussion & Trade-offs
+
+A core design challenge in high-frequency financial dashboards is choosing how market ticks travel from server scrapers to client viewports:
+
+| Dimension                 | Pull Model (HTTP Polling on `main`)                       | Push Model (Server-Sent Events on `sse`)                    |
+| :------------------------ | :-------------------------------------------------------- | :---------------------------------------------------------- |
+| **Communication Flow**    | Client issues periodic `GET /api/portfolio` every 15s     | Server keeps open HTTP stream, pushing ticks downstream     |
+| **Connection Lifecycle**  | Ephemeral: short-lived request/response cycles            | Persistent: single long-lived TCP connection per client     |
+| **Deployment Boundary**   | **Vercel Serverless** (stateless, function suspensions)   | **Persistent Node Container** (Docker, VPS, local runtime)  |
+| **Clock Synchronization** | Client-driven: poll cycles drift across tabs              | Server-driven: all clients tick in lockstep synchronization |
+| **Overhead at Scale**     | Repeated HTTP request headers and TCP handshakes          | One-time handshake; raw event payloads streamed down socket |
+| **Scraper Load Pattern**  | Upstream cache absorbs hits, but N tabs initiate N checks | Single shared broadcaster loop fans out 1 tick to N clients |
+
+### Why Our Primary Production Architecture Uses Polling
+
+For our primary cloud deployment on Vercel (`main`), **polling was chosen deliberately due to serverless execution constraints**:
+
+- **Serverless Execution Ceilings:** Serverless platforms like Vercel enforce strict maximum execution timeouts (typically 10 to 60 seconds) and aggressively suspend idle worker processes between invocations. Holding persistent HTTP streams open across 50 concurrent browser sessions quickly hits concurrency ceilings, triggers function execution timeouts, and results in HTTP 504 Gateway Timeouts.
+- **Stateless Cloud Resilience:** Polling aligns with the stateless request/response lifecycle of serverless functions. Each 15-second poll completes in milliseconds by hitting Finly's in-memory stock cache, incurring zero risk of abrupt connection drops or container state evictions.
+
+### Why We Built a Dedicated `sse` Branch as the Better Scalable Solution
+
+While polling is the pragmatic choice for Vercel's serverless model, **Server-Sent Events (SSE) represents the superior architecture for dedicated persistent infrastructure (Docker, VPS, or Kubernetes)**. To demonstrate this capability and provide a clean architectural comparison, we created a dedicated Git branch: `sse`.
+
+Key architectural decisions on the `sse` branch:
+
+- **Shared Broadcaster:** A single 15-second server loop broadcasts price updates to all connected tabs simultaneously, ensuring scraper traffic never scales with tab count.
+- **On-Demand Lifecycle:** The broadcast loop starts on the first connection and idles when all clients disconnect, avoiding wasted compute.
+- **Instant First Paint:** New connections receive the latest cached snapshot immediately rather than waiting up to 15 seconds for the next tick.
+- **Resilient Reconnection:** Native stream auto-reconnect restores the live state seamlessly after network drops or server restarts.
+- **Clean Separation:** Polling was removed completely rather than left as dead code. The stream feeds directly into the existing client cache, requiring zero UI component changes.
+
+> **Deployment Boundary Note:**
+> _"This branch runs via `pnpm build && pnpm start` locally — not deployed, since Vercel's function model doesn't support the persistent connection this requires."_
+
+---
+
+## 2. Data Sourcing: Official API Absence & The Scraping Dilemma
 
 ### The Challenge
 
@@ -53,7 +92,7 @@ This dual-source pipeline concurrently queries Yahoo Finance for prices while ex
 
 ---
 
-## 2. Taming Real-World HTML Scraping Fragility
+## 3. Taming Real-World HTML Scraping Fragility
 
 Implementing live Google Finance scraping for 26 concurrent equities revealed fundamental scraping vulnerabilities that required custom engineering:
 
@@ -77,7 +116,7 @@ Implementing live Google Finance scraping for 26 concurrent equities revealed fu
 
 ---
 
-## 3. High-Frequency Polling & Multi-Tier Caching
+## 4. High-Frequency Data Refresh & Multi-Tier Caching
 
 ### The Challenge
 
@@ -92,7 +131,7 @@ We implemented an in-memory cache (`src/server/cache/stock-cache.ts`) with disti
 
 ---
 
-## 4. Deterministic Financial Math & Architectural Decoupling
+## 5. Deterministic Financial Math & Architectural Decoupling
 
 ### 1. Pure Calculation Engine (`portfolio-calculator.ts`)
 

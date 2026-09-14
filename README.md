@@ -1,6 +1,6 @@
 # finly. — Dynamic Stock Portfolio Dashboard
 
-A real-time equity portfolio dashboard that tracks multi-sector Indian stock holdings with live CMP feeds, pure financial calculations, sector-level subtotals, and automated polling with graceful degradation.
+A real-time equity portfolio dashboard that tracks multi-sector Indian stock holdings with live CMP feeds, pure financial calculations, sector-level subtotals, and automated data refresh with graceful degradation.
 
 ---
 
@@ -61,38 +61,56 @@ finly/
 2. **Pure Financial Math:** All calculations reside in pure functions in `portfolio-calculator.ts` with division-by-zero guards and deterministic rounding.
 3. **No Database Requirement:** Holdings are seeded from `src/server/data/holdings.json` and computed dynamically against live or cached quotes.
 4. **Resilient Degradation:** If live feeds encounter network latency or rate limits, the UI falls back to cached data marked with honest stale indicators.
+5. **Transport Decoupling:** The UI presentation layer consumes portfolio data through TanStack Query's cache slot without knowing or caring whether it is populated via HTTP polling (`main` branch) or push-based Server-Sent Events (`sse` branch). See [`technicalbrief.md`](technicalbrief.md) for the full architectural comparison.
 
 ---
 
-## Getting Started
+## Getting Started & Local Setup
 
 ### Prerequisites
 
 - **Node.js** 18.18 or higher
 - **pnpm** (Install via `npm install -g pnpm` if needed)
 
-### Installation
+### 1. Installation
 
-1. Clone the repository:
+```bash
+git clone https://github.com/Devanshnair/Finly.git
+cd Finly
+pnpm install
+```
 
-   ```bash
-   git clone https://github.com/Devanshnair/Finly.git
-   cd Finly
-   ```
+### 2. Running Locally Across Branches
 
-2. Install dependencies:
+Finly implements two distinct real-time transport architectures across branches to demonstrate real-world engineering trade-offs:
 
-   ```bash
-   pnpm install
-   ```
+#### Option A: Running Polling Architecture (`main` branch)
 
-3. Run the development server:
+The primary production build utilizing 15-second HTTP polling (deployed on Vercel):
 
-   ```bash
-   pnpm dev
-   ```
+```bash
+git checkout main
+pnpm dev
+# or production build:
+pnpm build && pnpm start
+```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000/dashboard](http://localhost:3000/dashboard) to view the dashboard with polling updates.
+
+#### Option B: Running Server-Sent Events (SSE) Push Architecture (`sse` branch)
+
+The showcase push architecture powered by a single shared Node.js broadcaster:
+
+```bash
+git checkout sse
+pnpm dev
+# or production build:
+pnpm build && pnpm start
+```
+
+> _Note: This branch runs via `pnpm build && pnpm start` locally — not deployed, since Vercel's function model doesn't support the persistent connection this requires._
+
+Open [http://localhost:3000/dashboard](http://localhost:3000/dashboard) to view the dashboard with live SSE streaming (`Push stream (15s)`).
 
 ---
 
@@ -105,6 +123,7 @@ finly/
 | `pnpm start`        | Runs the compiled production application          |
 | `pnpm lint`         | Runs ESLint checks                                |
 | `pnpm tsc --noEmit` | Runs strict TypeScript type checking              |
+| `pnpm format`       | Formats all code with Prettier                    |
 
 ---
 
@@ -116,6 +135,12 @@ finly/
 - **Gain / Loss Percentage:** `(Gain / Loss ÷ Investment) × 100`
 - **Portfolio Weight (%):** `(Holding Investment ÷ Total Portfolio Investment) × 100`
 - **Weighted Average P/E:** Sum of `(Weight × P/E)` for all holdings with positive earnings.
+
+---
+
+## Documentation
+
+- **[Technical Brief (`technicalbrief.md`)](technicalbrief.md):** In-depth technical breakdown of Polling vs. Server-Sent Events, Yahoo vs. Google scraping, semantic DOM label anchoring, and architectural trade-offs.
 
 ---
 
