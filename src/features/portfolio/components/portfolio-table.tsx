@@ -5,7 +5,7 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import { SectorSummary } from "../types/portfolio.types";
 import { formatINR, formatPercent, formatRatio, formatNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
-import { PriceChangeDirection } from "../hooks/use-portfolio-query";
+import { PriceChangeDirection } from "../utils/price-changes";
 
 interface PortfolioTableProps {
   sectors: SectorSummary[];

@@ -12,6 +12,8 @@ interface LiveStatusProps {
   totalCount?: number;
   liveCount?: number;
   offlineCount?: number;
+  streamMode?: "polling" | "sse";
+  sseStatus?: "connecting" | "connected" | "error";
   onRefresh: () => void;
 }
 
@@ -23,6 +25,8 @@ export function LiveStatus({
   totalCount,
   liveCount,
   offlineCount,
+  streamMode = "sse",
+  sseStatus = "connected",
   onRefresh,
 }: LiveStatusProps) {
   const [timeAgo, setTimeAgo] = useState("just now");
@@ -41,10 +45,18 @@ export function LiveStatus({
   }, [lastUpdated]);
 
   let dotColor = "bg-accent animate-pulse";
-  let statusLabel = "Live";
+  let statusLabel = streamMode === "sse" ? "SSE: Live" : "Live";
   let textStyle = "text-text-secondary";
 
-  if (typeof totalCount === "number" && totalCount > 0 && typeof liveCount === "number") {
+  if (streamMode === "sse" && sseStatus === "connecting") {
+    statusLabel = "SSE: Connecting";
+    dotColor = "bg-amber-500 animate-pulse";
+    textStyle = "text-amber-500 font-medium";
+  } else if (streamMode === "sse" && sseStatus === "error") {
+    statusLabel = "SSE: Disconnected";
+    dotColor = "bg-negative";
+    textStyle = "text-negative font-medium";
+  } else if (typeof totalCount === "number" && totalCount > 0 && typeof liveCount === "number") {
     const total = totalCount;
     const live = liveCount;
     const offline = offlineCount ?? 0;
@@ -55,7 +67,7 @@ export function LiveStatus({
       dotColor = "bg-negative";
       textStyle = "text-negative font-medium";
     } else if (live === total) {
-      statusLabel = "Live";
+      statusLabel = streamMode === "sse" ? "SSE: Live" : "Live";
       dotColor = "bg-accent animate-pulse";
       textStyle = "text-text-secondary";
     } else if (live === 0) {
@@ -94,7 +106,7 @@ export function LiveStatus({
       <span>·</span>
       <span className="tabular-nums">Updated {timeAgo}</span>
       <span>·</span>
-      <span>Polls every 15s</span>
+      <span>{streamMode === "sse" ? "Push stream (15s)" : "Polls every 15s"}</span>
       <button
         onClick={onRefresh}
         disabled={isFetching}

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { AlertCircle, Search, RefreshCw, Info } from "lucide-react";
-import { usePortfolioQuery } from "@/features/portfolio/hooks/use-portfolio-query";
+import { usePortfolioSse } from "@/features/portfolio/hooks/use-portfolio-sse";
 import { PortfolioTable } from "@/features/portfolio/components/portfolio-table";
 import { LiveStatus } from "@/features/portfolio/components/live-status";
 import {
@@ -20,8 +20,9 @@ export default function AssignmentSpecPage() {
     isError,
     priceChanges,
     isFetching,
+    status,
     refetch,
-  } = usePortfolioQuery({
+  } = usePortfolioSse({
     endpoint: "/api/portfolio/assignment-spec",
     queryKey: ["portfolio", "assignment-spec"],
   });
@@ -110,6 +111,7 @@ export default function AssignmentSpecPage() {
             totalCount={summary.holdingsCount}
             liveCount={summary.liveCount}
             offlineCount={summary.offlineCount}
+            streamMode="polling"
             onRefresh={refetch}
           />
         </div>

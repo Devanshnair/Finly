@@ -3,7 +3,7 @@
 import React, { useMemo } from "react";
 import Link from "next/link";
 import { AlertCircle, ArrowRight, ArrowUpRight, ArrowDownRight } from "lucide-react";
-import { usePortfolioQuery } from "@/features/portfolio/hooks/use-portfolio-query";
+import { usePortfolioSse } from "@/features/portfolio/hooks/use-portfolio-sse";
 import { KpiSummaryCards } from "@/features/portfolio/components/kpi-summary-cards";
 import { SectorAllocationChart } from "@/features/portfolio/components/sector-allocation-chart";
 import { SectorBarChart } from "@/features/portfolio/components/sector-bar-chart";
@@ -95,7 +95,7 @@ function TopHoldingsPreview({ holdings, total }: { holdings: HoldingCalculated[]
 }
 
 export default function OverviewPage() {
-  const { data: summary, isLoading, isError, isFetching, refetch } = usePortfolioQuery();
+  const { data: summary, isLoading, isError, isFetching, status, refetch } = usePortfolioSse();
 
   if (isError) {
     return (
@@ -149,6 +149,8 @@ export default function OverviewPage() {
             totalCount={summary.holdingsCount}
             liveCount={summary.liveCount}
             offlineCount={summary.offlineCount}
+            streamMode="sse"
+            sseStatus={status}
             onRefresh={refetch}
           />
         </div>

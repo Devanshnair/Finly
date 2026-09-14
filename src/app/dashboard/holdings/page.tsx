@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { AlertCircle, Search } from "lucide-react";
-import { usePortfolioQuery } from "@/features/portfolio/hooks/use-portfolio-query";
+import { usePortfolioSse } from "@/features/portfolio/hooks/use-portfolio-sse";
 import { PortfolioTable } from "@/features/portfolio/components/portfolio-table";
 import { LiveStatus } from "@/features/portfolio/components/live-status";
 import {
@@ -20,8 +20,9 @@ export default function HoldingsPage() {
     isError,
     priceChanges,
     isFetching,
+    status,
     refetch,
-  } = usePortfolioQuery();
+  } = usePortfolioSse();
   const [selectedSector, setSelectedSector] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -89,6 +90,8 @@ export default function HoldingsPage() {
             totalCount={summary.holdingsCount}
             liveCount={summary.liveCount}
             offlineCount={summary.offlineCount}
+            streamMode="sse"
+            sseStatus={status}
             onRefresh={refetch}
           />
         </div>
