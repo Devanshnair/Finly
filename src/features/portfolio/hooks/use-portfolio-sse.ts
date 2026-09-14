@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { portfolioKeys } from "./portfolio.keys";
 import { PortfolioApiResponse, PortfolioSummary } from "../types/portfolio.types";
@@ -18,10 +18,15 @@ export function usePortfolioSse(options?: { endpoint?: string; queryKey?: readon
   const [isManualFetching, setIsManualFetching] = useState(false);
 
   const endpoint = options?.endpoint ?? "/api/portfolio";
-  const queryKey =
-    options?.queryKey ??
-    (endpoint === "/api/portfolio" ? portfolioKeys.summary() : ["portfolio", endpoint]);
   const isSseActive = endpoint === "/api/portfolio";
+
+  // stable query key reference so query does not churn
+  const queryKey = useMemo(
+    () =>
+      options?.queryKey ??
+      (endpoint === "/api/portfolio" ? portfolioKeys.summary() : ["portfolio", endpoint]),
+    [options?.queryKey, endpoint]
+  );
 
   // no polling, cache slot only
   const query = useQuery({
@@ -56,6 +61,12 @@ export function usePortfolioSse(options?: { endpoint?: string; queryKey?: readon
     [queryClient, queryKey]
   );
 
+  // keep ref so stream effect only mounts once and does not close on re-renders
+  const handleIncomingDataRef = useRef(handleIncomingData);
+  useEffect(() => {
+    handleIncomingDataRef.current = handleIncomingData;
+  }, [handleIncomingData]);
+
   useEffect(() => {
     if (!isSseActive) {
       setSseStatus("connected");
@@ -75,7 +86,7 @@ export function usePortfolioSse(options?: { endpoint?: string; queryKey?: readon
       es.onmessage = (event) => {
         try {
           const data: PortfolioSummary = JSON.parse(event.data);
-          handleIncomingData(data);
+          handleIncomingDataRef.current(data);
           setSseStatus("connected");
         } catch {
           // bad json ignore
@@ -94,7 +105,7 @@ export function usePortfolioSse(options?: { endpoint?: string; queryKey?: readon
         es.close();
       }
     };
-  }, [handleIncomingData, isSseActive]);
+  }, [isSseActive]);
 
   const refetch = useCallback(async () => {
     setIsManualFetching(true);
