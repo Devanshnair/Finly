@@ -1,5 +1,9 @@
 import holdingsData from "../data/holdings.json";
-import { HoldingSeed, StockQuote, PortfolioSummary } from "@/features/portfolio/types/portfolio.types";
+import {
+  HoldingSeed,
+  StockQuote,
+  PortfolioSummary,
+} from "@/features/portfolio/types/portfolio.types";
 import { stockCache } from "../cache/stock-cache";
 import { fetchYahooFinanceQuotes } from "../scrapers/yahoo-finance";
 import { scrapeGoogleFinance } from "../scrapers/google-finance";
@@ -101,9 +105,7 @@ export class StockService {
     //    yahoo-finance2's internal ceiling. Each ticker's failure is independent:
     //    a timed-out ASTRAL:NSE falls back without blocking the other 25.
     const googleQuotes = new Map<string, StockQuote>();
-    const googleResults = await Promise.allSettled(
-      allTickers.map((t) => scrapeGoogleFinance(t))
-    );
+    const googleResults = await Promise.allSettled(allTickers.map((t) => scrapeGoogleFinance(t)));
     googleResults.forEach((res, idx) => {
       if (res.status === "fulfilled" && res.value) {
         googleQuotes.set(allTickers[idx], res.value);

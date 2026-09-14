@@ -12,16 +12,17 @@ interface TopMoversWidgetProps {
   compact?: boolean;
 }
 
-export function TopMoversWidget({
-  topGainers,
-  topLosers,
-  compact = false,
-}: TopMoversWidgetProps) {
+export function TopMoversWidget({ topGainers, topLosers, compact = false }: TopMoversWidgetProps) {
   const [activeTab, setActiveTab] = useState<"gainers" | "losers">("gainers");
   const items = activeTab === "gainers" ? topGainers : topLosers;
 
   return (
-    <div className={cn(compact ? "p-4" : "p-5", "rounded-xl border border-border bg-bg-surface flex flex-col h-full")}>
+    <div
+      className={cn(
+        compact ? "p-4" : "p-5",
+        "rounded-xl border border-border bg-bg-surface flex flex-col h-full"
+      )}
+    >
       <div className={cn("flex items-center justify-between", compact ? "mb-2.5" : "mb-4")}>
         <div>
           <h3 className="text-sm font-semibold text-text-primary tracking-tight">
@@ -60,7 +61,13 @@ export function TopMoversWidget({
         {items.slice(0, compact ? 3 : 4).map((holding) => {
           const isPositive = holding.gainLoss !== null ? holding.gainLoss >= 0 : true;
           return (
-            <div key={holding.id} className={cn(compact ? "py-1.5" : "py-2.5", "flex items-center justify-between text-xs")}>
+            <div
+              key={holding.id}
+              className={cn(
+                compact ? "py-1.5" : "py-2.5",
+                "flex items-center justify-between text-xs"
+              )}
+            >
               <div className="flex items-center gap-2.5">
                 <div
                   className={cn(

@@ -36,7 +36,12 @@ export function SectorAllocationChart({ sectors, compact = false }: SectorAlloca
   });
 
   return (
-    <div className={cn(compact ? "p-4" : "p-5", "rounded-xl border border-border bg-bg-surface flex flex-col h-full")}>
+    <div
+      className={cn(
+        compact ? "p-4" : "p-5",
+        "rounded-xl border border-border bg-bg-surface flex flex-col h-full"
+      )}
+    >
       <div className={cn("flex items-center justify-between", compact ? "mb-2.5" : "mb-4")}>
         <div>
           <h3 className="text-sm font-semibold text-text-primary tracking-tight">
@@ -71,10 +76,16 @@ export function SectorAllocationChart({ sectors, compact = false }: SectorAlloca
                       <div className="rounded-lg border border-border bg-bg-surface p-2.5 shadow-md text-xs">
                         <div className="font-semibold text-text-primary">{data.name}</div>
                         <div className="text-text-secondary mt-1">
-                          Value: <span className="font-medium text-text-primary tabular-nums">{formatINR(data.value)}</span>
+                          Value:{" "}
+                          <span className="font-medium text-text-primary tabular-nums">
+                            {formatINR(data.value)}
+                          </span>
                         </div>
                         <div className="text-text-muted">
-                          Weight: <span className="font-medium tabular-nums">{formatPercent(data.weight, { showSign: false })}</span>
+                          Weight:{" "}
+                          <span className="font-medium tabular-nums">
+                            {formatPercent(data.weight, { showSign: false })}
+                          </span>
                         </div>
                       </div>
                     );
@@ -87,14 +98,23 @@ export function SectorAllocationChart({ sectors, compact = false }: SectorAlloca
         </div>
 
         {/* Legend list */}
-        <div className={cn(compact ? "flex flex-col gap-1 justify-center text-[11px]" : "flex flex-col gap-2 justify-center")}>
+        <div
+          className={cn(
+            compact
+              ? "flex flex-col gap-1 justify-center text-[11px]"
+              : "flex flex-col gap-2 justify-center"
+          )}
+        >
           {chartData.map((item) => (
             <div key={item.name} className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-2">
+                <span className={cn("w-2.5 h-2.5 rounded-xs shrink-0", item.bgClass)} />
                 <span
-                  className={cn("w-2.5 h-2.5 rounded-xs shrink-0", item.bgClass)}
-                />
-                <span className={cn("font-medium text-text-secondary truncate", compact ? "max-w-[105px]" : "max-w-[140px]")}>
+                  className={cn(
+                    "font-medium text-text-secondary truncate",
+                    compact ? "max-w-[105px]" : "max-w-[140px]"
+                  )}
+                >
                   {item.name}
                 </span>
               </div>

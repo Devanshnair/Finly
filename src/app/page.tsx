@@ -125,9 +125,7 @@ export default function LandingPage() {
                     {f.title}
                   </h3>
                 </div>
-                <p className="text-sm text-text-secondary leading-relaxed">
-                  {f.description}
-                </p>
+                <p className="text-sm text-text-secondary leading-relaxed">{f.description}</p>
               </div>
             ))}
           </div>
@@ -161,11 +159,8 @@ export default function LandingPage() {
       <footer className="mt-auto border-t border-border py-6">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted">
           <span>
-            <span className="font-display font-bold text-text-primary">
-              finly
-            </span>
-            <span className="text-accent">.</span>
-            {" "}Portfolio intelligence.
+            <span className="font-display font-bold text-text-primary">finly</span>
+            <span className="text-accent">.</span> Portfolio intelligence.
           </span>
           <span>Real-time market dashboard</span>
         </div>

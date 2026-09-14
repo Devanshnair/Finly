@@ -21,12 +21,19 @@ export function KpiSummaryCards({ summary, compact = false }: KpiSummaryCardsPro
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {/* 1. Total Investment */}
-      <div className={cn(cardPadding, "rounded-xl border border-border bg-bg-surface flex flex-col justify-between transition-colors hover:border-text-secondary/40")}>
+      <div
+        className={cn(
+          cardPadding,
+          "rounded-xl border border-border bg-bg-surface flex flex-col justify-between transition-colors hover:border-text-secondary/40"
+        )}
+      >
         <span className="text-xs uppercase tracking-wider font-medium text-text-muted">
           Total Investment
         </span>
         <div className={labelMargin}>
-          <div className={cn(valueSize, "font-semibold tracking-tight text-text-primary tabular-nums")}>
+          <div
+            className={cn(valueSize, "font-semibold tracking-tight text-text-primary tabular-nums")}
+          >
             {formatINR(summary.totalInvestment)}
           </div>
           <p className="text-xs text-text-muted mt-0.5">
@@ -36,12 +43,19 @@ export function KpiSummaryCards({ summary, compact = false }: KpiSummaryCardsPro
       </div>
 
       {/* 2. Present Value */}
-      <div className={cn(cardPadding, "rounded-xl border border-border bg-bg-surface flex flex-col justify-between transition-colors hover:border-text-secondary/40")}>
+      <div
+        className={cn(
+          cardPadding,
+          "rounded-xl border border-border bg-bg-surface flex flex-col justify-between transition-colors hover:border-text-secondary/40"
+        )}
+      >
         <span className="text-xs uppercase tracking-wider font-medium text-text-muted">
           Current Value
         </span>
         <div className={labelMargin}>
-          <div className={cn(valueSize, "font-semibold tracking-tight text-text-primary tabular-nums")}>
+          <div
+            className={cn(valueSize, "font-semibold tracking-tight text-text-primary tabular-nums")}
+          >
             {formatINR(summary.totalPresentValue)}
           </div>
           <p className="text-xs text-text-muted mt-0.5">Live market valuation</p>
@@ -49,7 +63,12 @@ export function KpiSummaryCards({ summary, compact = false }: KpiSummaryCardsPro
       </div>
 
       {/* 3. Total Gain / Loss */}
-      <div className={cn(cardPadding, "rounded-xl border border-border bg-bg-surface flex flex-col justify-between transition-colors hover:border-text-secondary/40")}>
+      <div
+        className={cn(
+          cardPadding,
+          "rounded-xl border border-border bg-bg-surface flex flex-col justify-between transition-colors hover:border-text-secondary/40"
+        )}
+      >
         <div className="flex items-center justify-between">
           <span className="text-xs uppercase tracking-wider font-medium text-text-muted">
             Total Gain / Loss
@@ -94,17 +113,22 @@ export function KpiSummaryCards({ summary, compact = false }: KpiSummaryCardsPro
       </div>
 
       {/* 4. Avg P/E */}
-      <div className={cn(cardPadding, "rounded-xl border border-border bg-bg-surface flex flex-col justify-between transition-colors hover:border-text-secondary/40")}>
+      <div
+        className={cn(
+          cardPadding,
+          "rounded-xl border border-border bg-bg-surface flex flex-col justify-between transition-colors hover:border-text-secondary/40"
+        )}
+      >
         <span className="text-xs uppercase tracking-wider font-medium text-text-muted">
           Avg P/E Ratio
         </span>
         <div className={labelMargin}>
-          <div className={cn(valueSize, "font-semibold tracking-tight text-text-primary tabular-nums")}>
+          <div
+            className={cn(valueSize, "font-semibold tracking-tight text-text-primary tabular-nums")}
+          >
             {(summary.avgPe ?? null) !== null ? (summary.avgPe as number).toFixed(1) : "N/A"}
           </div>
-          <p className="text-xs text-text-muted mt-0.5">
-            Weighted by cost basis
-          </p>
+          <p className="text-xs text-text-muted mt-0.5">Weighted by cost basis</p>
         </div>
       </div>
     </div>

@@ -38,9 +38,7 @@ export default function HoldingsPage() {
     return (
       <div className="p-4 rounded-xl border border-negative-bg bg-negative-bg/30 text-negative flex items-center gap-3 text-xs">
         <AlertCircle className="w-4 h-4 shrink-0" />
-        <span>
-          Market data is temporarily unavailable. Please try again in a moment.
-        </span>
+        <span>Market data is temporarily unavailable. Please try again in a moment.</span>
       </div>
     );
   }
@@ -65,10 +63,7 @@ export default function HoldingsPage() {
       ? summary.sectors
       : summary.sectors.filter((s) => s.sector === selectedSector);
 
-  const totalPositions = filteredSectors.reduce(
-    (acc, s) => acc + s.holdings.length,
-    0
-  );
+  const totalPositions = filteredSectors.reduce((acc, s) => acc + s.holdings.length, 0);
 
   return (
     <div className="space-y-5">

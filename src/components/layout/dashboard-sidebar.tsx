@@ -69,7 +69,9 @@ export function DashboardSidebar({
           )}
         >
           {/* Full logo (hidden when collapsed on desktop) */}
-          <div className={cn("transition-all duration-200", isCollapsed ? "md:hidden block" : "block")}>
+          <div
+            className={cn("transition-all duration-200", isCollapsed ? "md:hidden block" : "block")}
+          >
             <FinlyLogo href="/" />
           </div>
           {/* Compact logo (only visible on desktop when collapsed) */}

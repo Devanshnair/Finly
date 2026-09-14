@@ -20,7 +20,6 @@ import { StockQuote } from "@/features/portfolio/types/portfolio.types";
  *    a noisy error on every request. stock-cache.ts is our single caching truth.
  */
 
-
 const SCRAPE_TIMEOUT_MS = 3500;
 const CONCURRENCY = 5;
 
@@ -59,8 +58,9 @@ async function scrapeOneTicker(ticker: string): Promise<StockQuote | null> {
     // 1. Price container: matches modern hero banner (zhtAvb/ujg0He/N6SYTe with jsname="Pdsbrc")
     //    with legacy YMlKec fxKbKc as secondary fallback
     const gPriceMatch =
-      html.match(/class="[^"]*(?:zhtAvb|ujg0He|N6SYTe)[^"]*"[\s\S]*?<span[^>]*jsname="Pdsbrc"[^>]*><span>[^0-9]*([\d,.]+)/i) ||
-      html.match(/class="[^"]*YMlKec fxKbKc[^"]*"[^>]*>[^0-9]*([\d,.]+)/i);
+      html.match(
+        /class="[^"]*(?:zhtAvb|ujg0He|N6SYTe)[^"]*"[\s\S]*?<span[^>]*jsname="Pdsbrc"[^>]*><span>[^0-9]*([\d,.]+)/i
+      ) || html.match(/class="[^"]*YMlKec fxKbKc[^"]*"[^>]*>[^0-9]*([\d,.]+)/i);
 
     if (gPriceMatch?.[1]) {
       const cmp = parseFloat(gPriceMatch[1].replace(/,/g, ""));

@@ -40,7 +40,8 @@ class StockCache {
     const hasNewFundamentals = quote.pe !== null || quote.latestEarnings !== null;
 
     const pe = quote.pe ?? (fundamentalsStillFresh ? existing!.quote.pe : null);
-    const latestEarnings = quote.latestEarnings ?? (fundamentalsStillFresh ? existing!.quote.latestEarnings : null);
+    const latestEarnings =
+      quote.latestEarnings ?? (fundamentalsStillFresh ? existing!.quote.latestEarnings : null);
 
     const fundamentalsExpiresAt = hasNewFundamentals
       ? now + this.FUNDAMENTALS_TTL_MS

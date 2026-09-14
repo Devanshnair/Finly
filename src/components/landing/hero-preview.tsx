@@ -1,13 +1,7 @@
 "use client";
 
 import React, { useMemo, useSyncExternalStore } from "react";
-import {
-  LayoutDashboard,
-  TableProperties,
-  PanelLeftClose,
-  Moon,
-  Sun,
-} from "lucide-react";
+import { LayoutDashboard, TableProperties, PanelLeftClose, Moon, Sun } from "lucide-react";
 import { FinlyLogo } from "@/components/ui/finly-logo";
 import { getHeroMockData } from "@/features/portfolio/data/mock-test-states";
 import { KpiSummaryCards } from "@/features/portfolio/components/kpi-summary-cards";

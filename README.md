@@ -6,17 +6,17 @@ A real-time equity portfolio dashboard that tracks multi-sector Indian stock hol
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 15 (App Router) |
-| **Language** | TypeScript (Strict Mode) |
-| **Styling** | Tailwind CSS (Tailored HSL theme tokens) |
-| **Icons & UI** | Lucide React, shadcn/ui primitives |
-| **State & Data Fetching** | TanStack React Query v5 + Axios |
-| **Charts** | Recharts (ResponsiveContainer, PieChart, BarChart) |
-| **Live Scrapers** | `yahoo-finance2` + Google Finance fallback |
-| **Cache** | In-memory TTL Stock Cache |
-| **Package Manager** | `pnpm` exclusively |
+| Layer                     | Technology                                         |
+| ------------------------- | -------------------------------------------------- |
+| **Framework**             | Next.js 15 (App Router)                            |
+| **Language**              | TypeScript (Strict Mode)                           |
+| **Styling**               | Tailwind CSS (Tailored HSL theme tokens)           |
+| **Icons & UI**            | Lucide React, shadcn/ui primitives                 |
+| **State & Data Fetching** | TanStack React Query v5 + Axios                    |
+| **Charts**                | Recharts (ResponsiveContainer, PieChart, BarChart) |
+| **Live Scrapers**         | `yahoo-finance2` + Google Finance fallback         |
+| **Cache**                 | In-memory TTL Stock Cache                          |
+| **Package Manager**       | `pnpm` exclusively                                 |
 
 ---
 
@@ -74,17 +74,20 @@ finly/
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/Devanshnair/Finly.git
    cd Finly
    ```
 
 2. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 3. Run the development server:
+
    ```bash
    pnpm dev
    ```
@@ -95,13 +98,13 @@ finly/
 
 ## Available Scripts
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Starts the development server at `localhost:3000` |
-| `pnpm build` | Compiles the production build |
-| `pnpm start` | Runs the compiled production application |
-| `pnpm lint` | Runs ESLint checks |
-| `pnpm tsc --noEmit` | Runs strict TypeScript type checking |
+| Command             | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| `pnpm dev`          | Starts the development server at `localhost:3000` |
+| `pnpm build`        | Compiles the production build                     |
+| `pnpm start`        | Runs the compiled production application          |
+| `pnpm lint`         | Runs ESLint checks                                |
+| `pnpm tsc --noEmit` | Runs strict TypeScript type checking              |
 
 ---
 

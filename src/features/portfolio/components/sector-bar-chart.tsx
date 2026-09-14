@@ -150,7 +150,10 @@ export function SectorBarChart({ sectors }: SectorBarChartProps) {
               tickLine={false}
               width={56}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--color-bg-surface-2)", opacity: 0.5 }} />
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ fill: "var(--color-bg-surface-2)", opacity: 0.5 }}
+            />
 
             {/* Investment bar — per-sector color, slightly transparent */}
             <Bar dataKey="investment" name="investment" radius={[3, 3, 0, 0]} maxBarSize={32}>

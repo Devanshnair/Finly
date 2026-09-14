@@ -68,4 +68,3 @@ export function FinlyLogo({ className, href = "/", compact = false }: FinlyLogoP
 
 // Export Logo alias to support standard naming
 export const Logo = FinlyLogo;
-

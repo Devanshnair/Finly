@@ -8,15 +8,14 @@ import { PortfolioApiResponse, PortfolioSummary } from "../types/portfolio.types
 
 export type PriceChangeDirection = "up" | "down" | "unchanged";
 
-export function usePortfolioQuery(options?: {
-  endpoint?: string;
-  queryKey?: readonly unknown[];
-}) {
+export function usePortfolioQuery(options?: { endpoint?: string; queryKey?: readonly unknown[] }) {
   const previousPricesRef = useRef<Record<string, number>>({});
   const [priceChanges, setPriceChanges] = useState<Record<string, PriceChangeDirection>>({});
 
   const endpoint = options?.endpoint ?? "/api/portfolio";
-  const queryKey = options?.queryKey ?? (endpoint === "/api/portfolio" ? portfolioKeys.summary() : ["portfolio", endpoint]);
+  const queryKey =
+    options?.queryKey ??
+    (endpoint === "/api/portfolio" ? portfolioKeys.summary() : ["portfolio", endpoint]);
 
   // The assignment-spec endpoint hits 26 external URLs concurrently. With per-scrape
   // AbortController timeouts (~4s), the round should land in 4–6s. 15s gives honest

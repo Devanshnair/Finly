@@ -1,10 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import {
-  ChevronDown,
-  ChevronRight,
-} from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { SectorSummary } from "../types/portfolio.types";
 import { formatINR, formatPercent, formatRatio, formatNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
@@ -17,7 +14,7 @@ interface PortfolioTableProps {
 }
 
 export function PortfolioTable({ sectors, priceChanges, searchQuery = "" }: PortfolioTableProps) {
-  const [collapsedSectors, setCollapsedSectors] = useState<Record<string, boolean>>({}); 
+  const [collapsedSectors, setCollapsedSectors] = useState<Record<string, boolean>>({});
 
   const toggleSector = (sector: string) => {
     setCollapsedSectors((prev) => ({
@@ -128,7 +125,9 @@ export function PortfolioTable({ sectors, priceChanges, searchQuery = "" }: Port
                     </td>
                     {/* Sector Subtotal Gain/Loss */}
                     <td className="py-2.5 px-4 text-right">
-                      {sec.totalGainLoss !== null && sec.gainLossPercent !== null && isSecGain !== null ? (
+                      {sec.totalGainLoss !== null &&
+                      sec.gainLossPercent !== null &&
+                      isSecGain !== null ? (
                         <div className="flex items-center justify-end gap-1.5">
                           <span
                             className={cn(
@@ -171,9 +170,7 @@ export function PortfolioTable({ sectors, priceChanges, searchQuery = "" }: Port
                           {/* Stock Particulars */}
                           <td className="py-3 px-4">
                             <div className="flex items-center gap-2">
-                              <span className="font-medium text-text-primary">
-                                {h.particulars}
-                              </span>
+                              <span className="font-medium text-text-primary">{h.particulars}</span>
                               {h.status === "error" || h.cmp === null ? (
                                 <span
                                   className="px-1 py-0.2 rounded text-[10px] bg-negative-bg text-negative border border-negative/30"
@@ -245,7 +242,9 @@ export function PortfolioTable({ sectors, priceChanges, searchQuery = "" }: Port
 
                           {/* Gain / Loss */}
                           <td className="py-3 px-4 text-right">
-                            {h.gainLoss !== null && h.gainLossPercent !== null && isHoldingGain !== null ? (
+                            {h.gainLoss !== null &&
+                            h.gainLossPercent !== null &&
+                            isHoldingGain !== null ? (
                               <div className="flex items-center justify-end gap-1.5">
                                 <span
                                   className={cn(

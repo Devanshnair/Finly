@@ -14,18 +14,9 @@ import { HoldingCalculated } from "@/features/portfolio/types/portfolio.types";
 import { LiveStatus } from "@/features/portfolio/components/live-status";
 
 // ─── Top holdings mini-table ───────────────────────────────────────────────
-function TopHoldingsPreview({
-  holdings,
-  total,
-}: {
-  holdings: HoldingCalculated[];
-  total: number;
-}) {
+function TopHoldingsPreview({ holdings, total }: { holdings: HoldingCalculated[]; total: number }) {
   const top5 = useMemo(
-    () =>
-      [...holdings]
-        .sort((a, b) => (b.presentValue ?? 0) - (a.presentValue ?? 0))
-        .slice(0, 5),
+    () => [...holdings].sort((a, b) => (b.presentValue ?? 0) - (a.presentValue ?? 0)).slice(0, 5),
     [holdings]
   );
 
@@ -104,24 +95,15 @@ function TopHoldingsPreview({
   );
 }
 
-
 // ─── Page ─────────────────────────────────────────────────────────────────
 export default function OverviewPage() {
-  const {
-    data: summary,
-    isLoading,
-    isError,
-    isFetching,
-    refetch,
-  } = usePortfolioQuery();
+  const { data: summary, isLoading, isError, isFetching, refetch } = usePortfolioQuery();
 
   if (isError) {
     return (
       <div className="p-4 rounded-xl border border-negative-bg bg-negative-bg/30 text-negative flex items-center gap-3 text-xs">
         <AlertCircle className="w-4 h-4 shrink-0" />
-        <span>
-          Market data is temporarily unavailable. Please try again in a moment.
-        </span>
+        <span>Market data is temporarily unavailable. Please try again in a moment.</span>
       </div>
     );
   }
@@ -184,10 +166,7 @@ export default function OverviewPage() {
           <SectorAllocationChart sectors={summary.sectors} />
         </div>
         <div>
-          <TopMoversWidget
-            topGainers={summary.topGainers}
-            topLosers={summary.topLosers}
-          />
+          <TopMoversWidget topGainers={summary.topGainers} topLosers={summary.topLosers} />
         </div>
       </div>
 
@@ -195,10 +174,7 @@ export default function OverviewPage() {
       <SectorBarChart sectors={summary.sectors} />
 
       {/* Top Holdings preview table */}
-      <TopHoldingsPreview
-        holdings={summary.holdings}
-        total={summary.holdingsCount}
-      />
+      <TopHoldingsPreview holdings={summary.holdings} total={summary.holdingsCount} />
     </div>
   );
 }

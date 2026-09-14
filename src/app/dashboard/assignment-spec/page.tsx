@@ -41,9 +41,7 @@ export default function AssignmentSpecPage() {
     return (
       <div className="p-4 rounded-xl border border-negative-bg bg-negative-bg/30 text-negative flex items-center gap-3 text-xs">
         <AlertCircle className="w-4 h-4 shrink-0" />
-        <span>
-          Market data is temporarily unavailable. Please try again in a moment.
-        </span>
+        <span>Market data is temporarily unavailable. Please try again in a moment.</span>
         <button
           onClick={() => refetch()}
           className="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-md bg-negative/20 text-text-primary hover:bg-negative/30 font-medium transition-colors cursor-pointer"
@@ -76,10 +74,7 @@ export default function AssignmentSpecPage() {
       ? summary.sectors
       : summary.sectors.filter((s) => s.sector === selectedSector);
 
-  const totalPositions = filteredSectors.reduce(
-    (acc, s) => acc + s.holdings.length,
-    0
-  );
+  const totalPositions = filteredSectors.reduce((acc, s) => acc + s.holdings.length, 0);
 
   return (
     <div className="space-y-5">
@@ -88,17 +83,15 @@ export default function AssignmentSpecPage() {
         <Info className="h-3.5 w-3.5 shrink-0 text-accent" />
         <p className="text-xs text-text-secondary">
           Live market data is fetched from{" "}
-          <span className="font-medium text-text-primary">Yahoo Finance</span>; P/E and EPS data is fetched from{" "}
-          <span className="font-medium text-text-primary">Google Finance</span>.
+          <span className="font-medium text-text-primary">Yahoo Finance</span>; P/E and EPS data is
+          fetched from <span className="font-medium text-text-primary">Google Finance</span>.
         </p>
       </div>
 
       {/* Top Header Row: Title & Subtitle on left, Live Status on top right */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight text-text-primary">
-            Holdings
-          </h1>
+          <h1 className="text-xl font-semibold tracking-tight text-text-primary">Holdings</h1>
           <p className="text-xs text-text-muted mt-0.5">
             <span className="font-medium text-text-secondary tabular-nums">
               {summary.holdingsCount}

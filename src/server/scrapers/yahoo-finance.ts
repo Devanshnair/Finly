@@ -31,9 +31,10 @@ export async function fetchYahooFinanceQuotes(tickers: string[]): Promise<Map<st
         if (typeof cmp !== "number" || isNaN(cmp)) continue;
 
         const pe = typeof item.trailingPE === "number" ? Number(item.trailingPE.toFixed(2)) : null;
-        const latestEarnings = typeof item.epsTrailingTwelveMonths === "number" 
-          ? Number(item.epsTrailingTwelveMonths.toFixed(2)) 
-          : null;
+        const latestEarnings =
+          typeof item.epsTrailingTwelveMonths === "number"
+            ? Number(item.epsTrailingTwelveMonths.toFixed(2))
+            : null;
 
         quotesMap.set(item.symbol, {
           ticker: item.symbol,
@@ -48,7 +49,9 @@ export async function fetchYahooFinanceQuotes(tickers: string[]): Promise<Map<st
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
-      console.warn(`[Yahoo Finance Scraper Warning] Chunk failed: [${chunk.join(", ")}]. Error: ${msg}`);
+      console.warn(
+        `[Yahoo Finance Scraper Warning] Chunk failed: [${chunk.join(", ")}]. Error: ${msg}`
+      );
     }
   }
 

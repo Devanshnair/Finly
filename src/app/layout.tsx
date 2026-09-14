@@ -15,7 +15,8 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "Finly — Dynamic Stock Portfolio Dashboard",
-  description: "Real-time stock portfolio tracker with sector subtotals, live CMP from Yahoo Finance, and automated refresh cycle.",
+  description:
+    "Real-time stock portfolio tracker with sector subtotals, live CMP from Yahoo Finance, and automated refresh cycle.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -24,14 +25,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} antialiased`} suppressHydrationWarning>
-      <body className="min-h-screen bg-bg-page font-sans selection:bg-accent selection:text-text-primary" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
+      suppressHydrationWarning
+    >
+      <body
+        className="min-h-screen bg-bg-page font-sans selection:bg-accent selection:text-text-primary"
+        suppressHydrationWarning
+      >
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
